@@ -31,10 +31,16 @@ class UsersController extends ResourceController
      */
     public function index(): ResponseInterface
     {
-        $users = $this->model->paginate(10);
+        // -------------------- Cache --------------------
+        $response = cache()->remember('users', 60, static function () {
+            // -------------------- Get all users --------------------
+            $users = model('App\Models\UserModel')->paginate(10);
+            // -------------------- Transform --------------------
+            return UserResource::collection($users);
+        });
 
-        // Use the Resource
-        return $this->respond(UserResource::collection($users));
+        // -------------------- Response --------------------
+        return $this->respond($response);
     }
 
     /**
