@@ -17,7 +17,7 @@ use CodeIgniter\Router\RouteCollection;
 //    |
 
 // Set the namespace Api in the group
-$routes->group('api', ['namespace' => 'App\Controllers\Api', 'filter' => 'session'], static function ($routes) {
+$routes->group('api', ['namespace' => 'App\Controllers\Api'], static function ($routes) {
     $routes->resource('users', ['only' => 'index,create,show', 'controller' => 'UsersController']);
 });
 
