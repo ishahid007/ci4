@@ -18,7 +18,7 @@ class UserModel extends Model
     protected array $casts            = [
         'created_at' => 'datetime',
     ];
-    protected array $castHandlers     = [];
+    protected array $castHandlers = [];
 
     // Dates
     protected $useTimestamps = true;

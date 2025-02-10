@@ -18,18 +18,28 @@ class UsersController extends ResourceController
     protected $format    = 'json';
     private UserValidation $userValidation;
 
+    /**
+     * UsersController constructor.
+     */
     public function __construct()
     {
         $this->userValidation = new UserValidation();
     }
 
+    /**
+     * Get all users
+     */
     public function index(): ResponseInterface
     {
         $users = $this->model->paginate(10);
+
         // Use the Resource
         return $this->respond(UserResource::collection($users));
     }
 
+    /**
+     * Create a new user
+     */
     public function create(): ResponseInterface
     {
         // -------------------- Validation --------------------
@@ -44,6 +54,11 @@ class UsersController extends ResourceController
         return $this->respondCreated(['success' => true]);
     }
 
+    /**
+     * Show a single user
+     *
+     * @param int|null $id
+     */
     public function show($id = null): ResponseInterface
     {
         $user = $this->model->find($id);
