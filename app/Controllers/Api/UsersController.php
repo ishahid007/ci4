@@ -25,8 +25,7 @@ class UsersController extends ResourceController
 
     public function index(): ResponseInterface
     {
-        $users = $this->model->paginate(5);
-//        dd($users);
+        $users = $this->model->paginate(10);
         // Use the Resource
         return $this->respond(UserResource::collection($users));
     }
