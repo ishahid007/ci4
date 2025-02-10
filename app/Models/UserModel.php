@@ -15,7 +15,9 @@ class UserModel extends Model
     protected $allowedFields          = ['username', 'status', 'active'];
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
-    protected array $casts            = [];
+    protected array $casts            = [
+        'created_at' => 'datetime',
+    ];
     protected array $castHandlers     = [];
 
     // Dates
