@@ -35,6 +35,7 @@ class UsersController extends ResourceController
         $response = cache()->remember('users', 60, static function () {
             // -------------------- Get all users --------------------
             $users = model('App\Models\UserModel')->paginate(10);
+
             // -------------------- Transform --------------------
             return UserResource::collection($users);
         });
