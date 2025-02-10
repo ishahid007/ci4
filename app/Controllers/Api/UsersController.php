@@ -8,8 +8,6 @@ use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
-// use http\Client\Curl\UserResource;
-
 class UsersController extends ResourceController
 {
     use ResponseTrait;
@@ -28,19 +26,17 @@ class UsersController extends ResourceController
 
     /**
      * Get all users
+     *
+     * @Cache(time=60, group="users")
      */
     public function index(): ResponseInterface
     {
-        // -------------------- Cache --------------------
         $response = cache()->remember('users', 60, static function () {
-            // -------------------- Get all users --------------------
             $users = model('App\Models\UserModel')->paginate(10);
 
-            // -------------------- Transform --------------------
             return UserResource::collection($users);
         });
 
-        // -------------------- Response --------------------
         return $this->respond($response);
     }
 
@@ -54,10 +50,8 @@ class UsersController extends ResourceController
         if (! $validatedData) {
             return $this->failValidationErrors($this->userValidation->errors());
         }
-        // -------------------- Insert --------------------
         $this->model->insert($validatedData);
 
-        // -------------------- Response --------------------
         return $this->respondCreated(['success' => true]);
     }
 
@@ -69,6 +63,7 @@ class UsersController extends ResourceController
     public function show($id = null): ResponseInterface
     {
         $user = $this->model->find($id);
+        // Check if the user is not found, return a 404 response
         if ($user === null) {
             return $this->failNotFound('User not found');
         }
