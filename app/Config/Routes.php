@@ -17,9 +17,10 @@ use CodeIgniter\Router\RouteCollection;
 //    |
 
 // Set the namespace Api in the group
-$routes->group('api', ['namespace' => 'App\Controllers\Api'], static function ($routes) {
+$routes->group('api', ['namespace' => 'App\Controllers\Api', 'filter' => 'jwt'], static function ($routes) {
     $routes->resource('users', ['only' => 'index,create,show', 'controller' => 'UsersController']);
 });
-
+// JWT login route
+$routes->post('auth/jwt', '\App\Controllers\Auth\LoginController::jwtLogin');
 // Auth routes
 service('auth')->routes($routes);
